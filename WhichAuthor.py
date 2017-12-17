@@ -29,7 +29,7 @@ for k in stopwords.items():
     print(k)
 
 authorwords = {}
-with open("authors/dickens/ChristmasCarol/Charles-Dickens-Christmas-Carol.txt") as f:
+with open("authors/dickens/ChristmasCarol/Charles-Dickens-Christmas-Carol") as f:
     for line in f:
         line2 = line.replace('\n','')
         authorwords[line2] = line2
