@@ -46,7 +46,8 @@ with open("authors/dickens/ChristmasCarol/Charles-Dickens-Christmas-Carol") as f
 #    print(k)
 
 #doc = codecs.open('authors/dickens/ChristmasCarol/Charles-Dickens-Christmas-Carol', 'r', 'utf-8')
-doc = codecs.open('authors/dickens/OliverTwist/OliverTwistCharlesDickens.txt', 'r', 'utf-8')
+#doc = codecs.open('authors/dickens/OliverTwist/OliverTwistCharlesDickens.txt', 'r', 'utf-8')
+doc = codecs.open('authors/Austen/Pride-And-Predjudice-Jane-Austen.txt', 'r', 'utf-8')
 content = doc.read()
 
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
@@ -59,22 +60,32 @@ wordcount = 0
 #Step 3.
 #
 mesuredwords = {}
+totalwords = 0
+avgwordcount = []
+#process each sentecne in a book
 for sentence in sentences:
     #print ("#\n"+sentence+"\n#")
     #words per Sentence
     #most common words, but not small
     wordlist = word_tokenize(sentence)
+    wordcount = 0
+    #process each word in a sentence
     for word in wordlist:
         word = word.lower()
-        if (not word in stopwords):
+        totalwords = totalwords + 1
+        wordcount = wordcount + 1
+        if (not word in stopwords and word.isalpha()):
             if (not word in mesuredwords):
                 mesuredwords[word] = 1
             else:
                 mesuredwords[word] = mesuredwords[word] + 1
             #print("\n"+word+"\n")
-
+    avgwordcount.append(wordcount)
+wordspersentence = sum(avgwordcount) / float(len(avgwordcount))
+print ("Average sentence Length\t" + str(wordspersentence))
+print ("Total Words\t" + str(totalwords))
 
 #print dict sorted by key VVV
 for word in sorted(mesuredwords, key=mesuredwords.get, reverse=True):
     if (mesuredwords[word] > 40):
-        print(word + "\t" + str(mesuredwords[word]))
+        print(word + "\t" + str(mesuredwords[word])+"\t"+ str(100 * mesuredwords[word]/totalwords))
